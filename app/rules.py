@@ -3,13 +3,14 @@
 from math import fsum
 from types import MappingProxyType
 from typing import Mapping
+from app.eligibility import evaluate_eligibility
 
 from app.schemas import (
     Criterio, InvestidorEntrada, StartupEntrada, ResultadoCriterio,
-    Justificativa, Recomendacao, RulesRequest, RulesResponse,
+    Justificativa, Recomendacao, RulesRequest, RulesResponse, CandidataExcluida,
 )
 
-VERSION = "1a-v2"
+VERSION = "1a-v3"
 WEIGHTS = MappingProxyType({"segmento": 30.0, "estagio": 25.0, "regiao": 20.0, "modelo": 15.0, "ajuda": 10.0})
 # Equivalências de negócio explícitas, não igualdade entre enums.
 # Parcerias estratégicas e "outro" não têm equivalência inequívoca.
@@ -62,6 +63,8 @@ def modelo(i: InvestidorEntrada, s: StartupEntrada) -> ResultadoCriterio:
 
 
 def ajuda(i: InvestidorEntrada, s: StartupEntrada) -> ResultadoCriterio:
+    if i.tipoInvestidor == "anjo":
+        return insufficient("Modalidade anjo não comprova oferta ativa de mentoria ou apoio; ajuda não avaliada.")
     needs, areas = set(s.necessidadesAdicionais), set(i.areasAjuda)
     unmapped = sorted(needs - HELP_MAP.keys())
     warning = "Necessidades sem equivalência definida: " + ", ".join(unmapped) + "." if unmapped else None
@@ -104,7 +107,12 @@ def rank(request: RulesRequest, weights: Mapping[Criterio, float] = WEIGHTS) -> 
     normalized = {key: value / maximum for key, value in weights.items()}
     total = fsum(normalized.values())
     recommendations = []
+    excluded = []
     for startup in request.startups:
+        eligibility = evaluate_eligibility(request.investidor, startup)
+        if eligibility.estado == "inelegivel":
+            excluded.append(CandidataExcluida(startupId=startup.id, elegibilidade=eligibility))
+            continue
         criteria = {key: calculate(request.investidor, startup) for key, calculate in CRITERIA.items()}
         available = {key: value for key, value in criteria.items() if value.score is not None}
         denominator = fsum(normalized[key] for key in available)
@@ -126,10 +134,13 @@ def rank(request: RulesRequest, weights: Mapping[Criterio, float] = WEIGHTS) -> 
             justificativas=[Justificativa(criterio=key, descricao=EXPLANATIONS[key], evidencias=value.evidencias)
                             for key, value in available.items() if value.score > 0],
             avisos=warnings,
+            elegibilidade=eligibility,
         ))
     recommendations.sort(key=lambda r: (r.scoreRanking is None, -(r.scoreRanking or 0), -r.cobertura, str(r.startupId)))
     selected = recommendations[:request.limite]
     for position, recommendation in enumerate(selected, start=1):
         recommendation.posicao = position
     return RulesResponse(investidorId=request.investidor.id, versaoAlgoritmo=VERSION,
-                         pesos=dict(weights), recomendacoes=selected)
+                         pesos=dict(weights), recomendacoes=selected,
+                         tipoInvestidor=request.investidor.tipoInvestidor,
+                         excluidas=sorted(excluded, key=lambda item: str(item.startupId)))

@@ -1,0 +1,969 @@
+{
+  "modelo": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+  "python": "3.13.11",
+  "versoes": {
+    "sentence-transformers": "5.7.0",
+    "torch": "2.15.0",
+    "transformers": "5.21.0"
+  },
+  "fonte_perfis": "evaluate_content_real.py",
+  "sha256_fonte": "058436be79be393d17c06a7d5e3d27900ac777d8b627b32570081c4e5dc37a7f",
+  "metodo": "A=bio; B=descricaoExperiencia; C=ambos. Mesmos textos originais, modelo CPU, preparação e rank_content de produção. Cache apenas experimental por texto exato; nenhuma seleção baseada nos resultados.",
+  "delta_definicao": "cosseno da relevante MENOS cosseno da primeira; zero se relevante em primeiro, negativo caso contrário",
+  "startups": [
+    {
+      "nome": "CampoConecta",
+      "id": "00000000-0000-4000-8000-000000000064",
+      "descricaoPitch": "Conectamos pequenos lavradores a compradores de alimentos, reduzindo intermediários e perdas na colheita.",
+      "mercadoAlvo": "Cooperativas rurais e feirantes"
+    },
+    {
+      "nome": "CuidadoPerto",
+      "id": "00000000-0000-4000-8000-000000000065",
+      "descricaoPitch": "Acompanhamento remoto de pessoas com diabetes e hipertensão. A equipe assistencial recebe alertas e organiza o cuidado fora do hospital.",
+      "mercadoAlvo": "Clínicas e operadoras de planos médicos"
+    },
+    {
+      "nome": "AprenderJuntos",
+      "id": "00000000-0000-4000-8000-000000000066",
+      "descricaoPitch": "Professores identificam dificuldades de leitura e matemática e adaptam atividades à evolução de cada aluno.",
+      "mercadoAlvo": "Escolas de ensino fundamental"
+    },
+    {
+      "nome": "CaixaSimples",
+      "id": "00000000-0000-4000-8000-000000000067",
+      "descricaoPitch": "Microempreendedores controlam entradas, despesas e cobranças e conseguem antecipar recebíveis para manter o capital de giro.",
+      "mercadoAlvo": "Pequenos comércios e prestadores de serviços"
+    },
+    {
+      "nome": "OrbitaGames",
+      "id": "00000000-0000-4000-8000-000000000068",
+      "descricaoPitch": "Criamos aventuras de exploração espacial para consoles, com partidas cooperativas e venda de itens cosméticos.",
+      "mercadoAlvo": "Pessoas que jogam videogame"
+    },
+    {
+      "nome": "SolLocal",
+      "id": "00000000-0000-4000-8000-000000000069",
+      "descricaoPitch": "Instalamos geração fotovoltaica compartilhada para reduzir a conta de luz de pequenos negócios sem exigir painéis no imóvel.",
+      "mercadoAlvo": "Comércios de bairro e pequenas empresas"
+    },
+    {
+      "nome": "PerfilVazio",
+      "id": "00000000-0000-4000-8000-00000000006a",
+      "descricaoPitch": null,
+      "mercadoAlvo": null
+    }
+  ],
+  "avaliacoes": [
+    {
+      "investidor": "Agro",
+      "estrategia": "A",
+      "entrada": {
+        "id": "00000000-0000-4000-8000-000000000001",
+        "bio": "Quero apoiar soluções que aproximem produtores familiares do consumidor e melhorem a comercialização no campo.",
+        "descricaoExperiencia": null
+      },
+      "texto_preparado": "Quero apoiar soluções que aproximem produtores familiares do consumidor e melhorem a comercialização no campo.",
+      "texto_suficiente": true,
+      "relevante_referencia_previa": "CampoConecta",
+      "posicao_relevante": 1,
+      "delta_relevante_primeira": 0.0,
+      "ranking": [
+        {
+          "nome": "CampoConecta",
+          "startupId": "00000000-0000-4000-8000-000000000064",
+          "posicao": 1,
+          "similaridadeBruta": 0.5200607258002751,
+          "score": 0.7600303629001375,
+          "avisos": []
+        },
+        {
+          "nome": "CaixaSimples",
+          "startupId": "00000000-0000-4000-8000-000000000067",
+          "posicao": 2,
+          "similaridadeBruta": 0.38971475792833726,
+          "score": 0.6948573789641687,
+          "avisos": []
+        },
+        {
+          "nome": "SolLocal",
+          "startupId": "00000000-0000-4000-8000-000000000069",
+          "posicao": 3,
+          "similaridadeBruta": 0.2904294002602894,
+          "score": 0.6452147001301447,
+          "avisos": []
+        },
+        {
+          "nome": "CuidadoPerto",
+          "startupId": "00000000-0000-4000-8000-000000000065",
+          "posicao": 4,
+          "similaridadeBruta": 0.2668265256663139,
+          "score": 0.6334132628331569,
+          "avisos": []
+        },
+        {
+          "nome": "OrbitaGames",
+          "startupId": "00000000-0000-4000-8000-000000000068",
+          "posicao": 5,
+          "similaridadeBruta": 0.21987357589250306,
+          "score": 0.6099367879462515,
+          "avisos": []
+        },
+        {
+          "nome": "AprenderJuntos",
+          "startupId": "00000000-0000-4000-8000-000000000066",
+          "posicao": 6,
+          "similaridadeBruta": 0.07784928454812622,
+          "score": 0.5389246422740631,
+          "avisos": []
+        },
+        {
+          "nome": "PerfilVazio",
+          "startupId": "00000000-0000-4000-8000-00000000006a",
+          "posicao": 7,
+          "similaridadeBruta": null,
+          "score": null,
+          "avisos": [
+            "Conteúdo textual insuficiente no perfil da startup."
+          ]
+        }
+      ]
+    },
+    {
+      "investidor": "Agro",
+      "estrategia": "B",
+      "entrada": {
+        "id": "00000000-0000-4000-8000-000000000001",
+        "bio": null,
+        "descricaoExperiencia": "Atuei na distribuição de produtos agrícolas e na organização de cooperativas."
+      },
+      "texto_preparado": "Atuei na distribuição de produtos agrícolas e na organização de cooperativas.",
+      "texto_suficiente": true,
+      "relevante_referencia_previa": "CampoConecta",
+      "posicao_relevante": 1,
+      "delta_relevante_primeira": 0.0,
+      "ranking": [
+        {
+          "nome": "CampoConecta",
+          "startupId": "00000000-0000-4000-8000-000000000064",
+          "posicao": 1,
+          "similaridadeBruta": 0.518767071991603,
+          "score": 0.7593835359958014,
+          "avisos": []
+        },
+        {
+          "nome": "CaixaSimples",
+          "startupId": "00000000-0000-4000-8000-000000000067",
+          "posicao": 2,
+          "similaridadeBruta": 0.3009337323515902,
+          "score": 0.6504668661757951,
+          "avisos": []
+        },
+        {
+          "nome": "SolLocal",
+          "startupId": "00000000-0000-4000-8000-000000000069",
+          "posicao": 3,
+          "similaridadeBruta": 0.25320859584296534,
+          "score": 0.6266042979214826,
+          "avisos": []
+        },
+        {
+          "nome": "CuidadoPerto",
+          "startupId": "00000000-0000-4000-8000-000000000065",
+          "posicao": 4,
+          "similaridadeBruta": 0.2349196331773111,
+          "score": 0.6174598165886556,
+          "avisos": []
+        },
+        {
+          "nome": "OrbitaGames",
+          "startupId": "00000000-0000-4000-8000-000000000068",
+          "posicao": 5,
+          "similaridadeBruta": 0.16875308759917357,
+          "score": 0.5843765437995868,
+          "avisos": []
+        },
+        {
+          "nome": "AprenderJuntos",
+          "startupId": "00000000-0000-4000-8000-000000000066",
+          "posicao": 6,
+          "similaridadeBruta": 0.04989479345306794,
+          "score": 0.524947396726534,
+          "avisos": []
+        },
+        {
+          "nome": "PerfilVazio",
+          "startupId": "00000000-0000-4000-8000-00000000006a",
+          "posicao": 7,
+          "similaridadeBruta": null,
+          "score": null,
+          "avisos": [
+            "Conteúdo textual insuficiente no perfil da startup."
+          ]
+        }
+      ]
+    },
+    {
+      "investidor": "Agro",
+      "estrategia": "C",
+      "entrada": {
+        "id": "00000000-0000-4000-8000-000000000001",
+        "bio": "Quero apoiar soluções que aproximem produtores familiares do consumidor e melhorem a comercialização no campo.",
+        "descricaoExperiencia": "Atuei na distribuição de produtos agrícolas e na organização de cooperativas."
+      },
+      "texto_preparado": "Quero apoiar soluções que aproximem produtores familiares do consumidor e melhorem a comercialização no campo.\nAtuei na distribuição de produtos agrícolas e na organização de cooperativas.",
+      "texto_suficiente": true,
+      "relevante_referencia_previa": "CampoConecta",
+      "posicao_relevante": 1,
+      "delta_relevante_primeira": 0.0,
+      "ranking": [
+        {
+          "nome": "CampoConecta",
+          "startupId": "00000000-0000-4000-8000-000000000064",
+          "posicao": 1,
+          "similaridadeBruta": 0.6154843781407348,
+          "score": 0.8077421890703673,
+          "avisos": []
+        },
+        {
+          "nome": "CaixaSimples",
+          "startupId": "00000000-0000-4000-8000-000000000067",
+          "posicao": 2,
+          "similaridadeBruta": 0.37483863524750055,
+          "score": 0.6874193176237503,
+          "avisos": []
+        },
+        {
+          "nome": "CuidadoPerto",
+          "startupId": "00000000-0000-4000-8000-000000000065",
+          "posicao": 3,
+          "similaridadeBruta": 0.3111747756615401,
+          "score": 0.6555873878307701,
+          "avisos": []
+        },
+        {
+          "nome": "SolLocal",
+          "startupId": "00000000-0000-4000-8000-000000000069",
+          "posicao": 4,
+          "similaridadeBruta": 0.30520451579193086,
+          "score": 0.6526022578959654,
+          "avisos": []
+        },
+        {
+          "nome": "OrbitaGames",
+          "startupId": "00000000-0000-4000-8000-000000000068",
+          "posicao": 5,
+          "similaridadeBruta": 0.18283539555130254,
+          "score": 0.5914176977756512,
+          "avisos": []
+        },
+        {
+          "nome": "AprenderJuntos",
+          "startupId": "00000000-0000-4000-8000-000000000066",
+          "posicao": 6,
+          "similaridadeBruta": 0.0940912500788798,
+          "score": 0.5470456250394399,
+          "avisos": []
+        },
+        {
+          "nome": "PerfilVazio",
+          "startupId": "00000000-0000-4000-8000-00000000006a",
+          "posicao": 7,
+          "similaridadeBruta": null,
+          "score": null,
+          "avisos": [
+            "Conteúdo textual insuficiente no perfil da startup."
+          ]
+        }
+      ]
+    },
+    {
+      "investidor": "Saúde",
+      "estrategia": "A",
+      "entrada": {
+        "id": "00000000-0000-4000-8000-000000000002",
+        "bio": "Busco negócios que previnam complicações de doenças crônicas e ampliem o acesso ao atendimento, especialmente longe dos grandes centros.",
+        "descricaoExperiencia": null
+      },
+      "texto_preparado": "Busco negócios que previnam complicações de doenças crônicas e ampliem o acesso ao atendimento, especialmente longe dos grandes centros.",
+      "texto_suficiente": true,
+      "relevante_referencia_previa": "CuidadoPerto",
+      "posicao_relevante": 1,
+      "delta_relevante_primeira": 0.0,
+      "ranking": [
+        {
+          "nome": "CuidadoPerto",
+          "startupId": "00000000-0000-4000-8000-000000000065",
+          "posicao": 1,
+          "similaridadeBruta": 0.5958616003161457,
+          "score": 0.7979308001580728,
+          "avisos": []
+        },
+        {
+          "nome": "CaixaSimples",
+          "startupId": "00000000-0000-4000-8000-000000000067",
+          "posicao": 2,
+          "similaridadeBruta": 0.3473211372271671,
+          "score": 0.6736605686135836,
+          "avisos": []
+        },
+        {
+          "nome": "SolLocal",
+          "startupId": "00000000-0000-4000-8000-000000000069",
+          "posicao": 3,
+          "similaridadeBruta": 0.2969814671110461,
+          "score": 0.648490733555523,
+          "avisos": []
+        },
+        {
+          "nome": "CampoConecta",
+          "startupId": "00000000-0000-4000-8000-000000000064",
+          "posicao": 4,
+          "similaridadeBruta": 0.2645257930628424,
+          "score": 0.6322628965314212,
+          "avisos": []
+        },
+        {
+          "nome": "OrbitaGames",
+          "startupId": "00000000-0000-4000-8000-000000000068",
+          "posicao": 5,
+          "similaridadeBruta": 0.1943036317641249,
+          "score": 0.5971518158820625,
+          "avisos": []
+        },
+        {
+          "nome": "AprenderJuntos",
+          "startupId": "00000000-0000-4000-8000-000000000066",
+          "posicao": 6,
+          "similaridadeBruta": 0.10528351823404968,
+          "score": 0.5526417591170248,
+          "avisos": []
+        },
+        {
+          "nome": "PerfilVazio",
+          "startupId": "00000000-0000-4000-8000-00000000006a",
+          "posicao": 7,
+          "similaridadeBruta": null,
+          "score": null,
+          "avisos": [
+            "Conteúdo textual insuficiente no perfil da startup."
+          ]
+        }
+      ]
+    },
+    {
+      "investidor": "Saúde",
+      "estrategia": "B",
+      "entrada": {
+        "id": "00000000-0000-4000-8000-000000000002",
+        "bio": null,
+        "descricaoExperiencia": "Trabalhei com gestão de hospitais e serviços de telemedicina."
+      },
+      "texto_preparado": "Trabalhei com gestão de hospitais e serviços de telemedicina.",
+      "texto_suficiente": true,
+      "relevante_referencia_previa": "CuidadoPerto",
+      "posicao_relevante": 1,
+      "delta_relevante_primeira": 0.0,
+      "ranking": [
+        {
+          "nome": "CuidadoPerto",
+          "startupId": "00000000-0000-4000-8000-000000000065",
+          "posicao": 1,
+          "similaridadeBruta": 0.4636464272311589,
+          "score": 0.7318232136155794,
+          "avisos": []
+        },
+        {
+          "nome": "CaixaSimples",
+          "startupId": "00000000-0000-4000-8000-000000000067",
+          "posicao": 2,
+          "similaridadeBruta": 0.23514083628957974,
+          "score": 0.6175704181447899,
+          "avisos": []
+        },
+        {
+          "nome": "SolLocal",
+          "startupId": "00000000-0000-4000-8000-000000000069",
+          "posicao": 3,
+          "similaridadeBruta": 0.17748992867036623,
+          "score": 0.5887449643351831,
+          "avisos": []
+        },
+        {
+          "nome": "CampoConecta",
+          "startupId": "00000000-0000-4000-8000-000000000064",
+          "posicao": 4,
+          "similaridadeBruta": 0.1358182695623699,
+          "score": 0.567909134781185,
+          "avisos": []
+        },
+        {
+          "nome": "OrbitaGames",
+          "startupId": "00000000-0000-4000-8000-000000000068",
+          "posicao": 5,
+          "similaridadeBruta": 0.06952727788342375,
+          "score": 0.5347636389417119,
+          "avisos": []
+        },
+        {
+          "nome": "AprenderJuntos",
+          "startupId": "00000000-0000-4000-8000-000000000066",
+          "posicao": 6,
+          "similaridadeBruta": 0.061367520667402545,
+          "score": 0.5306837603337012,
+          "avisos": []
+        },
+        {
+          "nome": "PerfilVazio",
+          "startupId": "00000000-0000-4000-8000-00000000006a",
+          "posicao": 7,
+          "similaridadeBruta": null,
+          "score": null,
+          "avisos": [
+            "Conteúdo textual insuficiente no perfil da startup."
+          ]
+        }
+      ]
+    },
+    {
+      "investidor": "Saúde",
+      "estrategia": "C",
+      "entrada": {
+        "id": "00000000-0000-4000-8000-000000000002",
+        "bio": "Busco negócios que previnam complicações de doenças crônicas e ampliem o acesso ao atendimento, especialmente longe dos grandes centros.",
+        "descricaoExperiencia": "Trabalhei com gestão de hospitais e serviços de telemedicina."
+      },
+      "texto_preparado": "Busco negócios que previnam complicações de doenças crônicas e ampliem o acesso ao atendimento, especialmente longe dos grandes centros.\nTrabalhei com gestão de hospitais e serviços de telemedicina.",
+      "texto_suficiente": true,
+      "relevante_referencia_previa": "CuidadoPerto",
+      "posicao_relevante": 1,
+      "delta_relevante_primeira": 0.0,
+      "ranking": [
+        {
+          "nome": "CuidadoPerto",
+          "startupId": "00000000-0000-4000-8000-000000000065",
+          "posicao": 1,
+          "similaridadeBruta": 0.6167689235039648,
+          "score": 0.8083844617519824,
+          "avisos": []
+        },
+        {
+          "nome": "CaixaSimples",
+          "startupId": "00000000-0000-4000-8000-000000000067",
+          "posicao": 2,
+          "similaridadeBruta": 0.35292941615295514,
+          "score": 0.6764647080764776,
+          "avisos": []
+        },
+        {
+          "nome": "SolLocal",
+          "startupId": "00000000-0000-4000-8000-000000000069",
+          "posicao": 3,
+          "similaridadeBruta": 0.3106967704018181,
+          "score": 0.655348385200909,
+          "avisos": []
+        },
+        {
+          "nome": "CampoConecta",
+          "startupId": "00000000-0000-4000-8000-000000000064",
+          "posicao": 4,
+          "similaridadeBruta": 0.257567009497091,
+          "score": 0.6287835047485455,
+          "avisos": []
+        },
+        {
+          "nome": "OrbitaGames",
+          "startupId": "00000000-0000-4000-8000-000000000068",
+          "posicao": 5,
+          "similaridadeBruta": 0.18095154215764678,
+          "score": 0.5904757710788234,
+          "avisos": []
+        },
+        {
+          "nome": "AprenderJuntos",
+          "startupId": "00000000-0000-4000-8000-000000000066",
+          "posicao": 6,
+          "similaridadeBruta": 0.10401699237183722,
+          "score": 0.5520084961859186,
+          "avisos": []
+        },
+        {
+          "nome": "PerfilVazio",
+          "startupId": "00000000-0000-4000-8000-00000000006a",
+          "posicao": 7,
+          "similaridadeBruta": null,
+          "score": null,
+          "avisos": [
+            "Conteúdo textual insuficiente no perfil da startup."
+          ]
+        }
+      ]
+    },
+    {
+      "investidor": "Educação",
+      "estrategia": "A",
+      "entrada": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "bio": "Procuro ferramentas que ajudem crianças a aprender melhor, respeitando ritmos diferentes e apoiando o trabalho docente.",
+        "descricaoExperiencia": null
+      },
+      "texto_preparado": "Procuro ferramentas que ajudem crianças a aprender melhor, respeitando ritmos diferentes e apoiando o trabalho docente.",
+      "texto_suficiente": true,
+      "relevante_referencia_previa": "AprenderJuntos",
+      "posicao_relevante": 1,
+      "delta_relevante_primeira": 0.0,
+      "ranking": [
+        {
+          "nome": "AprenderJuntos",
+          "startupId": "00000000-0000-4000-8000-000000000066",
+          "posicao": 1,
+          "similaridadeBruta": 0.5663621939289976,
+          "score": 0.7831810969644988,
+          "avisos": []
+        },
+        {
+          "nome": "CampoConecta",
+          "startupId": "00000000-0000-4000-8000-000000000064",
+          "posicao": 2,
+          "similaridadeBruta": 0.26320447799174806,
+          "score": 0.631602238995874,
+          "avisos": []
+        },
+        {
+          "nome": "CuidadoPerto",
+          "startupId": "00000000-0000-4000-8000-000000000065",
+          "posicao": 3,
+          "similaridadeBruta": 0.24454266041463324,
+          "score": 0.6222713302073166,
+          "avisos": []
+        },
+        {
+          "nome": "CaixaSimples",
+          "startupId": "00000000-0000-4000-8000-000000000067",
+          "posicao": 4,
+          "similaridadeBruta": 0.21927743888599735,
+          "score": 0.6096387194429986,
+          "avisos": []
+        },
+        {
+          "nome": "OrbitaGames",
+          "startupId": "00000000-0000-4000-8000-000000000068",
+          "posicao": 5,
+          "similaridadeBruta": 0.21874376898667167,
+          "score": 0.6093718844933358,
+          "avisos": []
+        },
+        {
+          "nome": "SolLocal",
+          "startupId": "00000000-0000-4000-8000-000000000069",
+          "posicao": 6,
+          "similaridadeBruta": 0.06881181500077506,
+          "score": 0.5344059075003875,
+          "avisos": []
+        },
+        {
+          "nome": "PerfilVazio",
+          "startupId": "00000000-0000-4000-8000-00000000006a",
+          "posicao": 7,
+          "similaridadeBruta": null,
+          "score": null,
+          "avisos": [
+            "Conteúdo textual insuficiente no perfil da startup."
+          ]
+        }
+      ]
+    },
+    {
+      "investidor": "Educação",
+      "estrategia": "B",
+      "entrada": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "bio": null,
+        "descricaoExperiencia": "Tenho experiência em formação de educadores e avaliação pedagógica."
+      },
+      "texto_preparado": "Tenho experiência em formação de educadores e avaliação pedagógica.",
+      "texto_suficiente": true,
+      "relevante_referencia_previa": "AprenderJuntos",
+      "posicao_relevante": 1,
+      "delta_relevante_primeira": 0.0,
+      "ranking": [
+        {
+          "nome": "AprenderJuntos",
+          "startupId": "00000000-0000-4000-8000-000000000066",
+          "posicao": 1,
+          "similaridadeBruta": 0.5260815418124928,
+          "score": 0.7630407709062463,
+          "avisos": []
+        },
+        {
+          "nome": "CuidadoPerto",
+          "startupId": "00000000-0000-4000-8000-000000000065",
+          "posicao": 2,
+          "similaridadeBruta": 0.20211307652157684,
+          "score": 0.6010565382607884,
+          "avisos": []
+        },
+        {
+          "nome": "CampoConecta",
+          "startupId": "00000000-0000-4000-8000-000000000064",
+          "posicao": 3,
+          "similaridadeBruta": 0.1933891797001004,
+          "score": 0.5966945898500502,
+          "avisos": []
+        },
+        {
+          "nome": "CaixaSimples",
+          "startupId": "00000000-0000-4000-8000-000000000067",
+          "posicao": 4,
+          "similaridadeBruta": 0.14604234307061312,
+          "score": 0.5730211715353065,
+          "avisos": []
+        },
+        {
+          "nome": "OrbitaGames",
+          "startupId": "00000000-0000-4000-8000-000000000068",
+          "posicao": 5,
+          "similaridadeBruta": 0.09806621092988488,
+          "score": 0.5490331054649424,
+          "avisos": []
+        },
+        {
+          "nome": "SolLocal",
+          "startupId": "00000000-0000-4000-8000-000000000069",
+          "posicao": 6,
+          "similaridadeBruta": 0.0076349009781211145,
+          "score": 0.5038174504890606,
+          "avisos": []
+        },
+        {
+          "nome": "PerfilVazio",
+          "startupId": "00000000-0000-4000-8000-00000000006a",
+          "posicao": 7,
+          "similaridadeBruta": null,
+          "score": null,
+          "avisos": [
+            "Conteúdo textual insuficiente no perfil da startup."
+          ]
+        }
+      ]
+    },
+    {
+      "investidor": "Educação",
+      "estrategia": "C",
+      "entrada": {
+        "id": "00000000-0000-4000-8000-000000000003",
+        "bio": "Procuro ferramentas que ajudem crianças a aprender melhor, respeitando ritmos diferentes e apoiando o trabalho docente.",
+        "descricaoExperiencia": "Tenho experiência em formação de educadores e avaliação pedagógica."
+      },
+      "texto_preparado": "Procuro ferramentas que ajudem crianças a aprender melhor, respeitando ritmos diferentes e apoiando o trabalho docente.\nTenho experiência em formação de educadores e avaliação pedagógica.",
+      "texto_suficiente": true,
+      "relevante_referencia_previa": "AprenderJuntos",
+      "posicao_relevante": 1,
+      "delta_relevante_primeira": 0.0,
+      "ranking": [
+        {
+          "nome": "AprenderJuntos",
+          "startupId": "00000000-0000-4000-8000-000000000066",
+          "posicao": 1,
+          "similaridadeBruta": 0.5683582450756349,
+          "score": 0.7841791225378174,
+          "avisos": []
+        },
+        {
+          "nome": "CampoConecta",
+          "startupId": "00000000-0000-4000-8000-000000000064",
+          "posicao": 2,
+          "similaridadeBruta": 0.2692912336935815,
+          "score": 0.6346456168467908,
+          "avisos": []
+        },
+        {
+          "nome": "CuidadoPerto",
+          "startupId": "00000000-0000-4000-8000-000000000065",
+          "posicao": 3,
+          "similaridadeBruta": 0.23892112926063896,
+          "score": 0.6194605646303195,
+          "avisos": []
+        },
+        {
+          "nome": "CaixaSimples",
+          "startupId": "00000000-0000-4000-8000-000000000067",
+          "posicao": 4,
+          "similaridadeBruta": 0.2122334569435242,
+          "score": 0.6061167284717621,
+          "avisos": []
+        },
+        {
+          "nome": "OrbitaGames",
+          "startupId": "00000000-0000-4000-8000-000000000068",
+          "posicao": 5,
+          "similaridadeBruta": 0.1880801731538644,
+          "score": 0.5940400865769322,
+          "avisos": []
+        },
+        {
+          "nome": "SolLocal",
+          "startupId": "00000000-0000-4000-8000-000000000069",
+          "posicao": 6,
+          "similaridadeBruta": 0.05783727267949289,
+          "score": 0.5289186363397465,
+          "avisos": []
+        },
+        {
+          "nome": "PerfilVazio",
+          "startupId": "00000000-0000-4000-8000-00000000006a",
+          "posicao": 7,
+          "similaridadeBruta": null,
+          "score": null,
+          "avisos": [
+            "Conteúdo textual insuficiente no perfil da startup."
+          ]
+        }
+      ]
+    },
+    {
+      "investidor": "Mudança de setor",
+      "estrategia": "A",
+      "entrada": {
+        "id": "00000000-0000-4000-8000-000000000004",
+        "bio": "Hoje quero investir em prevenção de doenças e cuidado de pacientes em casa.",
+        "descricaoExperiencia": null
+      },
+      "texto_preparado": "Hoje quero investir em prevenção de doenças e cuidado de pacientes em casa.",
+      "texto_suficiente": true,
+      "relevante_referencia_previa": "CuidadoPerto",
+      "posicao_relevante": 1,
+      "delta_relevante_primeira": 0.0,
+      "ranking": [
+        {
+          "nome": "CuidadoPerto",
+          "startupId": "00000000-0000-4000-8000-000000000065",
+          "posicao": 1,
+          "similaridadeBruta": 0.46192929993186577,
+          "score": 0.7309646499659329,
+          "avisos": []
+        },
+        {
+          "nome": "CaixaSimples",
+          "startupId": "00000000-0000-4000-8000-000000000067",
+          "posicao": 2,
+          "similaridadeBruta": 0.310168647732358,
+          "score": 0.655084323866179,
+          "avisos": []
+        },
+        {
+          "nome": "SolLocal",
+          "startupId": "00000000-0000-4000-8000-000000000069",
+          "posicao": 3,
+          "similaridadeBruta": 0.3076298518766489,
+          "score": 0.6538149259383245,
+          "avisos": []
+        },
+        {
+          "nome": "CampoConecta",
+          "startupId": "00000000-0000-4000-8000-000000000064",
+          "posicao": 4,
+          "similaridadeBruta": 0.17850655866879891,
+          "score": 0.5892532793343994,
+          "avisos": []
+        },
+        {
+          "nome": "OrbitaGames",
+          "startupId": "00000000-0000-4000-8000-000000000068",
+          "posicao": 5,
+          "similaridadeBruta": 0.11071802671983379,
+          "score": 0.5553590133599169,
+          "avisos": []
+        },
+        {
+          "nome": "AprenderJuntos",
+          "startupId": "00000000-0000-4000-8000-000000000066",
+          "posicao": 6,
+          "similaridadeBruta": 0.021302242981324472,
+          "score": 0.5106511214906623,
+          "avisos": []
+        },
+        {
+          "nome": "PerfilVazio",
+          "startupId": "00000000-0000-4000-8000-00000000006a",
+          "posicao": 7,
+          "similaridadeBruta": null,
+          "score": null,
+          "avisos": [
+            "Conteúdo textual insuficiente no perfil da startup."
+          ]
+        }
+      ]
+    },
+    {
+      "investidor": "Mudança de setor",
+      "estrategia": "B",
+      "entrada": {
+        "id": "00000000-0000-4000-8000-000000000004",
+        "bio": null,
+        "descricaoExperiencia": "Passei vinte anos em bancos, desenvolvendo crédito, pagamentos, conciliação financeira, antecipação de recebíveis e análise de risco para microempresas. Liderei produtos de capital de giro e serviços financeiros digitais para pequenos comerciantes."
+      },
+      "texto_preparado": "Passei vinte anos em bancos, desenvolvendo crédito, pagamentos, conciliação financeira, antecipação de recebíveis e análise de risco para microempresas. Liderei produtos de capital de giro e serviços financeiros digitais para pequenos comerciantes.",
+      "texto_suficiente": true,
+      "relevante_referencia_previa": "CuidadoPerto",
+      "posicao_relevante": 5,
+      "delta_relevante_primeira": -0.30962186301524763,
+      "ranking": [
+        {
+          "nome": "CaixaSimples",
+          "startupId": "00000000-0000-4000-8000-000000000067",
+          "posicao": 1,
+          "similaridadeBruta": 0.49009715614989746,
+          "score": 0.7450485780749487,
+          "avisos": []
+        },
+        {
+          "nome": "CampoConecta",
+          "startupId": "00000000-0000-4000-8000-000000000064",
+          "posicao": 2,
+          "similaridadeBruta": 0.31611993702049734,
+          "score": 0.6580599685102486,
+          "avisos": []
+        },
+        {
+          "nome": "OrbitaGames",
+          "startupId": "00000000-0000-4000-8000-000000000068",
+          "posicao": 3,
+          "similaridadeBruta": 0.23009549950919514,
+          "score": 0.6150477497545975,
+          "avisos": []
+        },
+        {
+          "nome": "SolLocal",
+          "startupId": "00000000-0000-4000-8000-000000000069",
+          "posicao": 4,
+          "similaridadeBruta": 0.22896168629929,
+          "score": 0.614480843149645,
+          "avisos": []
+        },
+        {
+          "nome": "CuidadoPerto",
+          "startupId": "00000000-0000-4000-8000-000000000065",
+          "posicao": 5,
+          "similaridadeBruta": 0.18047529313464986,
+          "score": 0.5902376465673249,
+          "avisos": []
+        },
+        {
+          "nome": "AprenderJuntos",
+          "startupId": "00000000-0000-4000-8000-000000000066",
+          "posicao": 6,
+          "similaridadeBruta": 0.10452506160196973,
+          "score": 0.5522625308009849,
+          "avisos": []
+        },
+        {
+          "nome": "PerfilVazio",
+          "startupId": "00000000-0000-4000-8000-00000000006a",
+          "posicao": 7,
+          "similaridadeBruta": null,
+          "score": null,
+          "avisos": [
+            "Conteúdo textual insuficiente no perfil da startup."
+          ]
+        }
+      ]
+    },
+    {
+      "investidor": "Mudança de setor",
+      "estrategia": "C",
+      "entrada": {
+        "id": "00000000-0000-4000-8000-000000000004",
+        "bio": "Hoje quero investir em prevenção de doenças e cuidado de pacientes em casa.",
+        "descricaoExperiencia": "Passei vinte anos em bancos, desenvolvendo crédito, pagamentos, conciliação financeira, antecipação de recebíveis e análise de risco para microempresas. Liderei produtos de capital de giro e serviços financeiros digitais para pequenos comerciantes."
+      },
+      "texto_preparado": "Hoje quero investir em prevenção de doenças e cuidado de pacientes em casa.\nPassei vinte anos em bancos, desenvolvendo crédito, pagamentos, conciliação financeira, antecipação de recebíveis e análise de risco para microempresas. Liderei produtos de capital de giro e serviços financeiros digitais para pequenos comerciantes.",
+      "texto_suficiente": true,
+      "relevante_referencia_previa": "CuidadoPerto",
+      "posicao_relevante": 2,
+      "delta_relevante_primeira": -0.06594146764775966,
+      "ranking": [
+        {
+          "nome": "CaixaSimples",
+          "startupId": "00000000-0000-4000-8000-000000000067",
+          "posicao": 1,
+          "similaridadeBruta": 0.512963091722496,
+          "score": 0.7564815458612479,
+          "avisos": []
+        },
+        {
+          "nome": "CuidadoPerto",
+          "startupId": "00000000-0000-4000-8000-000000000065",
+          "posicao": 2,
+          "similaridadeBruta": 0.44702162407473633,
+          "score": 0.7235108120373681,
+          "avisos": []
+        },
+        {
+          "nome": "CampoConecta",
+          "startupId": "00000000-0000-4000-8000-000000000064",
+          "posicao": 3,
+          "similaridadeBruta": 0.324813622832166,
+          "score": 0.662406811416083,
+          "avisos": []
+        },
+        {
+          "nome": "SolLocal",
+          "startupId": "00000000-0000-4000-8000-000000000069",
+          "posicao": 4,
+          "similaridadeBruta": 0.30914220301079437,
+          "score": 0.6545711015053972,
+          "avisos": []
+        },
+        {
+          "nome": "OrbitaGames",
+          "startupId": "00000000-0000-4000-8000-000000000068",
+          "posicao": 5,
+          "similaridadeBruta": 0.2160686014371976,
+          "score": 0.6080343007185988,
+          "avisos": []
+        },
+        {
+          "nome": "AprenderJuntos",
+          "startupId": "00000000-0000-4000-8000-000000000066",
+          "posicao": 6,
+          "similaridadeBruta": 0.0687890648128861,
+          "score": 0.5343945324064431,
+          "avisos": []
+        },
+        {
+          "nome": "PerfilVazio",
+          "startupId": "00000000-0000-4000-8000-00000000006a",
+          "posicao": 7,
+          "similaridadeBruta": null,
+          "score": null,
+          "avisos": [
+            "Conteúdo textual insuficiente no perfil da startup."
+          ]
+        }
+      ]
+    }
+  ],
+  "tempo_total_segundos_inclui_carga": 30.70624049997423,
+  "documentos_unicos_codificados": 18,
+  "comparativo": [
+    {
+      "estrategia": "A",
+      "top1_referencia": 4,
+      "total": 4,
+      "posicao_media_relevante": 1.0
+    },
+    {
+      "estrategia": "B",
+      "top1_referencia": 3,
+      "total": 4,
+      "posicao_media_relevante": 2.0
+    },
+    {
+      "estrategia": "C",
+      "top1_referencia": 3,
+      "total": 4,
+      "posicao_media_relevante": 1.25
+    }
+  ]
+}

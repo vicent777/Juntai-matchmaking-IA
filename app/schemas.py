@@ -3,7 +3,7 @@
 from typing import Annotated, Literal
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, model_validator
 
 Segmento = Literal["fintech", "healthtech", "edtech", "agtech", "saas_b2b", "marketplace", "ecommerce", "economia_criativa"]
 Estagio = Literal["ideacao", "validacao", "mvp", "tracao", "crescimento", "escala"]
@@ -13,14 +13,24 @@ Area = Literal["mentoria", "networking", "operacoes", "vendas_marketing", "growt
 Necessidade = Literal["mentoria", "conexoes_mercado", "contratacao_talentos", "parcerias_estrategicas", "outro"]
 Criterio = Literal["segmento", "estagio", "regiao", "modelo", "ajuda"]
 Unitario = Annotated[float, Field(ge=0, le=1, allow_inf_nan=False)]
+TipoInvestidor = Literal["anjo", "mentor", "anjo_mentor"]
+StatusModeracao = Literal["pendente", "aprovado", "rejeitado", "suspenso"]
 
 
 class Contrato(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
+class UsuarioOperacional(Contrato):
+    """Projeção opcional da relação usuario, sem default de atividade."""
+    id: UUID | None = None
+    ativo: StrictBool | None = None
+
+
 class InvestidorEntrada(Contrato):
     id: UUID  # Investidor.id, nunca Usuario.id.
+    usuario: UsuarioOperacional | None = None
+    tipoInvestidor: TipoInvestidor | None = None
     segmentosInteresse: list[Segmento] = Field(default_factory=list)
     estagiosInteresse: list[Estagio] = Field(default_factory=list)
     regioesInteresse: list[Regiao] = Field(default_factory=list)
@@ -30,6 +40,8 @@ class InvestidorEntrada(Contrato):
 
 class StartupEntrada(Contrato):
     id: UUID  # Startup.id, nunca Usuario.id.
+    usuario: UsuarioOperacional | None = None
+    statusModeracao: StatusModeracao | None = None
     segmento: Segmento | None = None
     segmentosSecundarios: list[Segmento] = Field(default_factory=list)
     estagio: Estagio | None = None
@@ -66,6 +78,18 @@ class Justificativa(Contrato):
     evidencias: list[str]
 
 
+class ResultadoElegibilidade(Contrato):
+    estado: Literal["elegivel", "inelegivel", "indeterminado"]
+    verificadas: list[str]
+    impedimentos: list[str]
+    pendencias: list[str]
+
+
+class CandidataExcluida(Contrato):
+    startupId: UUID
+    elegibilidade: ResultadoElegibilidade
+
+
 class Recomendacao(Contrato):
     startupId: UUID
     posicao: int = Field(ge=1)
@@ -76,6 +100,7 @@ class Recomendacao(Contrato):
     criteriosAvaliados: int = Field(ge=0, le=5)
     justificativas: list[Justificativa]
     avisos: list[str]
+    elegibilidade: ResultadoElegibilidade
 
 
 class RulesResponse(Contrato):
@@ -83,3 +108,5 @@ class RulesResponse(Contrato):
     versaoAlgoritmo: str
     pesos: dict[Criterio, float]
     recomendacoes: list[Recomendacao]
+    tipoInvestidor: TipoInvestidor | None = None
+    excluidas: list[CandidataExcluida] = Field(default_factory=list)

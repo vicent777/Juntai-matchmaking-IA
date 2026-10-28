@@ -13,6 +13,7 @@ Frontend React → Backend Node.js → HTTP/JSON → FastAPI → regras puras.
 - `app/main.py`: HTTP e endpoints existentes `/` e `/health` preservados.
 - `app/schemas.py`: validação Pydantic de entrada e saída.
 - `app/rules.py`: critérios isolados, pesos, explicações e ranking.
+- `app/eligibility.py`: elegibilidade operacional declarada, separada da afinidade.
 - `tests/test_rules.py`: únicos dados sintéticos operacionais do projeto.
 
 Python 3.10 ou superior. A partir da raiz, no Python já disponibilizado:
@@ -27,6 +28,12 @@ Em Windows, `py` pode substituir `python`. Não é necessário criar `.venv`.
 Em execução, `/docs` e `/openapi.json` descrevem os contratos completos.
 
 ## Contrato HTTP v1
+
+O Nível 1A usa agora `versaoAlgoritmo=1a-v3`. A extensão opcional de dados de
+usuário, moderação e modalidade está descrita em
+[Elegibilidade e compatibilidade retroativa](docs/rules-eligibility.md), com
+exemplos completos, comportamento de exclusão e testes. Payloads antigos
+continuam aceitos e recebem elegibilidade indeterminada sem exclusão automática.
 
 `POST /match/rules` recebe um objeto com:
 
@@ -71,7 +78,9 @@ deve resolver essa identidade e aplicar autorização antes de chamar a IA.
 
 Resposta: `investidorId`, `versaoAlgoritmo`, `pesos` e `recomendacoes` ordenadas.
 Cada item contém `startupId`, `posicao` (a partir de 1), `score`, `scoreRanking`, `criterios`,
-`cobertura`, `criteriosAvaliados`, `justificativas` e `avisos`.
+`cobertura`, `criteriosAvaliados`, `justificativas`, `avisos` e `elegibilidade`.
+A resposta também inclui `tipoInvestidor` contextual e `excluidas` com motivos
+de impedimentos operacionais explícitos; nenhum campo anterior foi removido.
 Cada critério informa `estado`, `score`, `cobertura`, `avaliacaoParcial`, `evidencias` e `aviso`.
 `avaliacaoParcial` distingue cobertura parcial de compatibilidade parcial:
 necessidades conhecidas podem ser todas compatíveis (`estado=compativel`) mesmo
@@ -128,6 +137,10 @@ Sem necessidades conhecidas, ou sem áreas de ajuda informadas, o critério fica
 insuficiente com score null e cobertura zero. As evidências e justificativas
 contêm exclusivamente correspondências reais.
 
+Na versão `1a-v3`, modalidade explicitamente `anjo` também torna ajuda
+insuficiente, com aviso: competências não comprovam oferta ativa de apoio.
+Mentor/anjo_mentor mantêm a comparação; modalidade ausente mantém a regra legada.
+
 ## Normalização, cobertura e ordenação
 
 Para critérios avaliáveis A, com peso w e score c:
@@ -153,7 +166,7 @@ canônico crescente. Não depende da ordem de entrada. O limite é aplicado apó
 ordenar, e as posições são sequenciais. O campo `score` continua sendo afinidade;
 `scoreRanking` incorpora cobertura sem modificar os pesos 30/25/20/15/10.
 A fórmula é uma heurística experimental, não uma probabilidade estatística de
-interesse. Ambos os scores ficam em [0, 1]. Na versão `1a-v2`, uma startup A com
+interesse. Ambos os scores ficam em [0, 1]. Desde a versão `1a-v2`, uma startup A com
 afinidade 1 e cobertura 0,30 tem scoreRanking 0,65; uma startup B com afinidade
 0,85 e cobertura 1 tem scoreRanking 0,85 e aparece primeiro.
 
@@ -179,8 +192,9 @@ as 120 permutações de cinco candidatas, incluindo desempates e score null.
 ## Integração futura e limites
 
 - Backend consulta PostgreSQL e envia apenas a projeção do contrato acima.
-- Backend autentica, autoriza e filtra perfis ativos/aprovados; este serviço
-  não verifica elegibilidade, existência dos IDs ou consentimentos no banco.
+- Backend autentica, autoriza e filtra perfis ativos/aprovados; o Nível 1A verifica
+  condições operacionais opcionais recebidas, mas não confirma existência dos IDs,
+  relações ou consentimentos no banco. Condições ausentes são indeterminadas.
 - **O endpoint não tem autenticação própria: protegê-lo contra acesso público
   por rede privada ou gateway na integração.** Não publicar diretamente.
 - Backend deve definir timeout, tratamento de falha e validação da resposta;
@@ -352,8 +366,8 @@ O backend ainda deverá fornecer a projeção textual autorizada, tratar timeout
 protegido contra acesso público na integração, assim como `/match/rules`.
 Configurar limites de bytes/taxa no gateway, provisionar cache e memória, avaliar
 latência em CPU e fixar revisão dos pesos do modelo para reprodutibilidade são
-pendências de implantação. Não há filtros de elegibilidade ou acesso ao banco
-no serviço Python. Não houve integração ou alteração nos outros repositórios.
+pendências de implantação. O Nível 1B não aplica filtros de elegibilidade;
+nenhum nível acessa o banco. Não houve integração ou alteração nos outros repositórios.
 
 Referências oficiais: [API SentenceTransformer](https://www.sbert.net/docs/package_reference/sentence_transformer/model.html)
 e [modelo](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2).
