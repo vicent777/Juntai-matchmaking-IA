@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../Juntai-Backend"
+		},
+		{
+			"path": "../Juntai-Frontend"
+		}
+	],
+	"settings": {}
+}

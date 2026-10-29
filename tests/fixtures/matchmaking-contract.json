@@ -1,0 +1,221 @@
+{
+  "request": {
+    "investidor": {
+      "id": "11111111-1111-4111-8111-111111111111",
+      "tipoInvestidor": "anjo_mentor",
+      "usuario": {
+        "id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+        "ativo": true
+      },
+      "segmentosInteresse": [
+        "agtech"
+      ],
+      "estagiosInteresse": [
+        "mvp"
+      ],
+      "regioesInteresse": [
+        "nordeste"
+      ],
+      "modelosInteresse": [
+        "b2b"
+      ],
+      "areasAjuda": [
+        "mentoria"
+      ]
+    },
+    "startups": [
+      {
+        "id": "22222222-2222-4222-8222-222222222222",
+        "usuario": {
+          "id": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+          "ativo": true
+        },
+        "statusModeracao": "aprovado",
+        "segmento": "agtech",
+        "segmentosSecundarios": [],
+        "estagio": "mvp",
+        "regioesAtuacao": [
+          "nordeste"
+        ],
+        "modeloNegocio": "b2b",
+        "necessidadesAdicionais": [
+          "mentoria"
+        ]
+      }
+    ],
+    "limite": 24
+  },
+  "response": {
+    "investidorId": "11111111-1111-4111-8111-111111111111",
+    "versaoAlgoritmo": "1a-v3",
+    "pesos": {
+      "segmento": 30.0,
+      "estagio": 25.0,
+      "regiao": 20.0,
+      "modelo": 15.0,
+      "ajuda": 10.0
+    },
+    "recomendacoes": [
+      {
+        "startupId": "22222222-2222-4222-8222-222222222222",
+        "posicao": 1,
+        "score": 1.0,
+        "scoreRanking": 1.0,
+        "criterios": {
+          "segmento": {
+            "estado": "compativel",
+            "score": 1.0,
+            "cobertura": 1.0,
+            "avaliacaoParcial": false,
+            "evidencias": [
+              "agtech"
+            ],
+            "aviso": null
+          },
+          "estagio": {
+            "estado": "compativel",
+            "score": 1.0,
+            "cobertura": 1.0,
+            "avaliacaoParcial": false,
+            "evidencias": [
+              "mvp"
+            ],
+            "aviso": null
+          },
+          "regiao": {
+            "estado": "compativel",
+            "score": 1.0,
+            "cobertura": 1.0,
+            "avaliacaoParcial": false,
+            "evidencias": [
+              "nordeste"
+            ],
+            "aviso": null
+          },
+          "modelo": {
+            "estado": "compativel",
+            "score": 1.0,
+            "cobertura": 1.0,
+            "avaliacaoParcial": false,
+            "evidencias": [
+              "b2b"
+            ],
+            "aviso": null
+          },
+          "ajuda": {
+            "estado": "compativel",
+            "score": 1.0,
+            "cobertura": 1.0,
+            "avaliacaoParcial": false,
+            "evidencias": [
+              "mentoria <- mentoria"
+            ],
+            "aviso": null
+          }
+        },
+        "cobertura": 1.0,
+        "criteriosAvaliados": 5,
+        "justificativas": [
+          {
+            "criterio": "segmento",
+            "descricao": "Segmentos da startup alinhados aos interesses do investidor.",
+            "evidencias": [
+              "agtech"
+            ]
+          },
+          {
+            "criterio": "estagio",
+            "descricao": "Est\u00e1gio da startup contemplado nas prefer\u00eancias.",
+            "evidencias": [
+              "mvp"
+            ]
+          },
+          {
+            "criterio": "regiao",
+            "descricao": "H\u00e1 regi\u00e3o de atua\u00e7\u00e3o contemplada nas prefer\u00eancias.",
+            "evidencias": [
+              "nordeste"
+            ]
+          },
+          {
+            "criterio": "modelo",
+            "descricao": "Modelo de neg\u00f3cio contemplado nas prefer\u00eancias.",
+            "evidencias": [
+              "b2b"
+            ]
+          },
+          {
+            "criterio": "ajuda",
+            "descricao": "H\u00e1 necessidades atendidas pelas \u00e1reas de ajuda declaradas.",
+            "evidencias": [
+              "mentoria <- mentoria"
+            ]
+          }
+        ],
+        "avisos": [],
+        "elegibilidade": {
+          "estado": "elegivel",
+          "verificadas": [
+            "IDs de Investidor e Startup com formato UUID v\u00e1lido.",
+            "investidor: ID do perfil distinto do respectivo Usuario.id.",
+            "investidor: usu\u00e1rio explicitamente ativo.",
+            "startup: ID do perfil distinto do respectivo Usuario.id.",
+            "startup: usu\u00e1rio explicitamente ativo.",
+            "startup: modera\u00e7\u00e3o explicitamente aprovada."
+          ],
+          "impedimentos": [],
+          "pendencias": []
+        }
+      }
+    ],
+    "tipoInvestidor": "anjo_mentor",
+    "excluidas": []
+  },
+  "stored_exposure": {
+    "id": "33333333-3333-4333-8333-333333333333",
+    "investidor_id": "11111111-1111-4111-8111-111111111111",
+    "startup_id": "22222222-2222-4222-8222-222222222222",
+    "ocorrido_em": "2026-01-01T00:00:00Z",
+    "origem_recomendacao": "rules",
+    "posicao_ranking": 1,
+    "versao_recomendador": "1a-v3",
+    "snapshot_perfis": {
+      "investidor": {
+        "id": "11111111-1111-4111-8111-111111111111",
+        "tipoInvestidor": "anjo_mentor",
+        "segmentosInteresse": [
+          "agtech"
+        ],
+        "estagiosInteresse": [
+          "mvp"
+        ],
+        "regioesInteresse": [
+          "nordeste"
+        ],
+        "modelosInteresse": [
+          "b2b"
+        ],
+        "areasAjuda": [
+          "mentoria"
+        ]
+      },
+      "startup": {
+        "id": "22222222-2222-4222-8222-222222222222",
+        "statusModeracao": "aprovado",
+        "segmento": "agtech",
+        "segmentosSecundarios": [],
+        "estagio": "mvp",
+        "regioesAtuacao": [
+          "nordeste"
+        ],
+        "modeloNegocio": "b2b",
+        "necessidadesAdicionais": [
+          "mentoria"
+        ]
+      }
+    },
+    "versao_contrato": "supervised-v1",
+    "semantica": "card_50pct_1000ms_ack",
+    "origem_dados": "sintetica"
+  }
+}
