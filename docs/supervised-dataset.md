@@ -1,5 +1,9 @@
 # Dataset supervisionado v1
 
+Exportação de exposições persistidas nas origens `discovery`, `rules` e `supervised`:
+consulte [supervised-exposure-export.md](supervised-exposure-export.md) para o
+contrato atual, metadados, snapshots antigos e limites de evidência histórica.
+
 Pipeline offline: `DatasetInput.model_validate(payload)` seguido de
 `build_dataset(entrada)`. Não conecta ao banco, não chama HTTP e não treina modelos.
 Usa apenas Pydantic e biblioteca padrão. Nível 1 e content-based permanecem intactos.
