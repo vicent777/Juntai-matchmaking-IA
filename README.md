@@ -1,33 +1,151 @@
-# Juntaí — Serviço de recomendação
+# Juntaí! Motor de matchmaking
 
-Nível 1A determinístico com dados estruturados e Nível 1B independente com
-embeddings locais dos textos enviados pelo backend. Não acessa PostgreSQL,
-dump ou arquivos de perfis. O modelo semântico pode baixar pesos públicos no
-primeiro uso; a inferência é local. Não implementa ranking híbrido ou aprendizado
-supervisionado.
+**Juntaí!** é uma plataforma acadêmica que aproxima startups, investidores anjo e mentores do ecossistema de inovação do Nordeste. Este repositório contém o serviço de recomendação que recebe projeções de perfis do backend e devolve listas ordenadas para apoiar a descoberta de oportunidades.
 
-## Arquitetura e execução
+O projeto integra o Projeto Integrador do 5º período de Análise e Desenvolvimento de Sistemas da Faculdade Senac Pernambuco. A pontuação não garante interesse, contato, investimento ou retorno financeiro; a decisão continua com os participantes.
 
-Frontend React → Backend Node.js → HTTP/JSON → FastAPI → regras puras.
+**Demonstração beta na Azure:** [acessar a plataforma](https://delightful-beach-0c45f1a10.4.azurestaticapps.net/). Os perfis de demonstração são fictícios.
 
-- `app/main.py`: HTTP e endpoints existentes `/` e `/health` preservados.
-- `app/schemas.py`: validação Pydantic de entrada e saída.
-- `app/rules.py`: critérios isolados, pesos, explicações e ranking.
-- `app/eligibility.py`: elegibilidade operacional declarada, separada da afinidade.
-- `tests/test_rules.py`: únicos dados sintéticos operacionais do projeto.
+---
 
-Python 3.10 ou superior. A partir da raiz, no Python já disponibilizado:
+## 📌 Sobre o projeto
 
-```sh
+Investidores e mentores podem precisar comparar diversas informações antes de escolher com quem conversar. O motor organiza características declaradas nos perfis para apoiar essa triagem. O backend aplica autenticação e filtros, consulta os perfis no PostgreSQL e envia ao motor apenas a projeção necessária; o serviço não acessa o banco diretamente.
+
+### Repositórios
+
+- [Frontend utilizado no beta](https://github.com/renatodelgado/Juntai-Frontend)
+- [Backend utilizado no beta](https://github.com/renatodelgado/Juntai-Backend)
+- [Motor utilizado no beta](https://github.com/renatodelgado/Juntai-matchmaking-IA)
+- Repositórios de origem: [backend de Clara Melo](https://github.com/ClaraMelo72/Juntai-Backend) e [motor de Vinícius](https://github.com/vicent777/Juntai-matchmaking-IA). As versões podem diferir das cópias utilizadas no beta.
+
+---
+
+## 🎯 Objetivo
+
+- Comparar dados estruturados de startups e preferências de investidores e mentores;
+- Informar afinidade, cobertura e justificativas quando houver dados disponíveis;
+- Tratar dados ausentes sem apresentá-los como incompatibilidade;
+- Disponibilizar métodos experimentais para pesquisa, sem confundi-los com o ranking padrão;
+- Manter contratos e testes para integração com o backend.
+
+## 👥 Atores e funcionalidades
+
+Investidores e mentores recebem sugestões por meio da interface. Startups disponibilizam informações de seus negócios após cadastro e análise. O backend é o cliente direto da API de matchmaking: seleciona candidatos, envia dados e valida a resposta. Pessoas administradoras moderam perfis pela plataforma.
+
+O motor oferece três caminhos separados:
+
+1. **Regras estruturadas — `POST /match/rules`:** compara critérios e produz afinidade, cobertura, justificativas e avisos. É a estratégia padrão do beta.
+2. **Conteúdo semântico — `POST /match/content`:** compara textos usando embeddings locais, com dependências e pesos adicionais. Não combina automaticamente o resultado com as regras.
+3. **Supervisionado — `POST /match/supervised`:** modelo experimental treinado com interações sintéticas. Requer artefatos e configuração específica; não há validação de desempenho com usuários reais.
+
+Não há combinação híbrida dos três métodos. Os pesos das regras são hipóteses de produto e a cobertura não é uma confiança estatística. Sinais comportamentais são capturados em componentes do projeto, mas seu uso para melhorar o modelo depende de dados e validação.
+
+---
+
+## 🏗️ Arquitetura
+
+```mermaid
+flowchart LR
+    U["Pessoa usuária"] --> F["Frontend React e TypeScript"]
+    F -->|"HTTPS / API"| B["Backend Node.js e Express"]
+    B -->|"TypeORM / SQL"| DB[("PostgreSQL")]
+    B -->|"HTTP / JSON e chave de serviço"| M["Motor Python e FastAPI"]
+    M -->|"ranking e justificativas"| B
+    F -->|"localidades"| IBGE["API do IBGE"]
+    F -->|"fontes"| GF["Google Fonts"]
+    B -->|"arquivos"| C["Cloudinary"]
+    subgraph Azure["Ambiente beta Azure"]
+      F
+      B
+      DB
+      M
+    end
+```
+
+O backend consulta os dados transacionais de perfis e interações, envia uma requisição ao FastAPI e recebe a lista resultante. Dados de exposição e descoberta são comportamentais; as recomendações são calculadas sob demanda. O diagrama também permanece versionado em [`docs/arquitetura.md`](docs/arquitetura.md).
+
+---
+
+## 📂 Estrutura do projeto
+
+```text
+Juntai-matchmaking-IA/
+├── app/
+│   ├── main.py                 # FastAPI, endpoints e autenticação
+│   ├── schemas.py              # Contratos do método por regras
+│   ├── rules.py                # Critérios, pesos e ranking
+│   ├── eligibility.py          # Elegibilidade operacional
+│   ├── content.py              # Comparação semântica
+│   ├── content_text.py         # Preparação de textos
+│   ├── embeddings.py           # Carregamento do modelo semântico
+│   └── supervised/             # Dataset, treinamento e inferência experimental
+├── tests/                      # Testes e fixtures fictícias
+├── docs/                       # Documentação e experimentos
+├── .env.example                # Nomes das variáveis de autenticação
+├── requirements.txt            # API básica
+├── requirements-dev.txt        # API e testes básicos
+├── requirements-content.txt    # Método semântico
+├── requirements-training.txt   # Treinamento
+├── requirements-supervised.txt # Inferência supervisionada experimental
+└── Dockerfile
+```
+
+## 🛠️ Stack
+
+| Tecnologia | Uso |
+| --- | --- |
+| Python | Linguagem do serviço e dos experimentos |
+| FastAPI e Uvicorn | API HTTP e servidor |
+| Pydantic | Validação dos contratos de entrada e saída |
+| Pytest e HTTPX | Testes de regras, contratos e endpoints |
+| Sentence Transformers | Embeddings no método semântico opcional |
+| NumPy, pandas, scikit-learn e XGBoost | Preparação e experimentos supervisionados opcionais |
+| Docker | Empacotamento do serviço básico |
+
+As dependências estão nos arquivos `requirements*.txt`. A maior parte utiliza faixas de versões; o arquivo do ambiente supervisionado fixa versões específicas. Não há lockfile geral.
+
+---
+
+## ⚙️ Instalação e execução
+
+### Pré-requisitos
+
+Instale Git e Python 3.12, recomendado para compatibilidade com os pacotes experimentais. Os testes básicos não exigem banco, GPU ou download de modelo.
+
+```bash
+git clone https://github.com/renatodelgado/Juntai-matchmaking-IA.git
+cd Juntai-matchmaking-IA
+python -m venv .venv
+```
+
+Ative o ambiente com `.venv\Scripts\Activate.ps1` no PowerShell ou `source .venv/bin/activate` em macOS/Linux. Se a política local impedir a ativação, utilize diretamente o interpretador do ambiente virtual.
+
+```bash
 python -m pip install -r requirements-dev.txt
-python -m pytest -q -p no:cacheprovider
+python -m pytest tests/test_rules.py tests/test_eligibility.py tests/test_service_auth.py -q -p no:cacheprovider
 python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
-Em Windows, `py` pode substituir `python`. Não é necessário criar `.venv`.
-Em execução, `/docs` e `/openapi.json` descrevem os contratos completos.
+Com o servidor ativo, `http://127.0.0.1:8000/health` verifica a resposta do processo e `/docs` abre a documentação interativa dos contratos. Configure `MATCHMAKING_API_URL=http://127.0.0.1:8000` no backend para utilizá-lo localmente.
 
-## Contrato HTTP v1
+### Autenticação entre serviços
+
+O arquivo `.env.example` documenta os nomes das variáveis, mas não é carregado automaticamente pelo comando acima. Configure no ambiente do processo do motor `MATCHMAKING_REQUIRE_AUTH=true` e `MATCHMAKING_API_KEY` com uma chave longa e aleatória; configure a mesma chave somente no backend. O cliente envia `X-Matchmaking-Key`. `/health` continua acessível sem chave. Se a autenticação obrigatória estiver ativa sem chave configurada, o serviço falha de forma controlada. Sem autenticação configurada, não exponha o motor na internet.
+
+---
+
+## 🔌 Endpoints e contrato de regras
+
+| Método e rota | Finalidade |
+| --- | --- |
+| `GET /health` | Verifica se o processo responde |
+| `POST /match/rules` | Ordena por critérios estruturados |
+| `POST /match/content` | Compara textos com embeddings, quando configurado |
+| `POST /match/supervised` | Executa inferência experimental, quando o modelo estiver disponível |
+
+### Contrato HTTP das regras
+
 
 O Nível 1A usa agora `versaoAlgoritmo=1a-v3`. A extensão opcional de dados de
 usuário, moderação e modalidade está descrita em
@@ -189,26 +307,39 @@ enums e limites inválidos, equivalências, secundários, duplicatas, configura�
 de pesos, explicações, limites dos scores e HTTP. O teste de ranking verifica
 as 120 permutações de cinco candidatas, incluindo desempates e score null.
 
-## Integração futura e limites
 
-- Backend consulta PostgreSQL e envia apenas a projeção do contrato acima.
-- Backend autentica, autoriza e filtra perfis ativos/aprovados; o Nível 1A verifica
-  condições operacionais opcionais recebidas, mas não confirma existência dos IDs,
-  relações ou consentimentos no banco. Condições ausentes são indeterminadas.
-- **O endpoint não tem autenticação própria: protegê-lo contra acesso público
-  por rede privada ou gateway na integração.** Não publicar diretamente.
-- Backend deve definir timeout, tratamento de falha e validação da resposta;
-  associar IDs retornados aos perfis públicos e preservar a ordem do ranking.
-- Frontend deve substituir compatibilidade ilustrativa e mostrar cobertura,
-  justificativas e ausência de score sem converter null em percentual zero.
-- Não há integração Node.js, leitura do banco, cache de perfis ou
-  persistência de recomendações. Payload limitado por quantidade de candidatas;
-  limites de bytes e taxa deverão ser definidos no gateway.
-- Dependências usam faixas de versões; ainda não há lockfile reprodutível.
-- Campos opcionais no contrato permitem projeções incompletas; isso não altera
-  os campos obrigatórios do esquema TypeORM.
+### Exemplo de entrada com dados fictícios
 
-## Nível 1B — conteúdo semântico independente
+No `/docs`, selecione `POST /match/rules` e envie:
+
+```json
+{
+  "investidor": {
+    "id": "11111111-1111-4111-8111-111111111111",
+    "segmentosInteresse": ["agtech"],
+    "estagiosInteresse": ["mvp"],
+    "regioesInteresse": ["nordeste"],
+    "modelosInteresse": ["b2b"],
+    "areasAjuda": ["mentoria"]
+  },
+  "startups": [{
+    "id": "22222222-2222-4222-8222-222222222222",
+    "segmento": "agtech",
+    "estagio": "mvp",
+    "regioesAtuacao": ["nordeste"],
+    "modeloNegocio": "b2b",
+    "necessidadesAdicionais": ["mentoria"]
+  }],
+  "limite": 5
+}
+```
+
+O teste `test_complete` verifica afinidade e cobertura iguais a 1 para essa combinação. Os UUIDs são fictícios e não correspondem a usuários reais.
+
+---
+
+## 🧠 Método semântico
+
 
 `POST /match/content` compara textos usando o modelo
 `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`, localmente em CPU.
@@ -334,11 +465,11 @@ do modelo real:
 
 ### Testes
 
-A suíte padrão usa apenas vetores e modelos simulados, sem instalar
-sentence-transformers ou baixar pesos:
+Os testes unitários do método semântico usam vetores e modelos simulados, sem
+instalar sentence-transformers ou baixar pesos:
 
 ```sh
-python -m pytest -q -p no:cacheprovider
+python -m pytest tests/test_content.py -q -p no:cacheprovider
 ```
 
 O teste real só roda mediante pedido explícito, com dependências de conteúdo
@@ -353,21 +484,50 @@ Ele verifica se um perfil agrícola supera um de jogos no exemplo definido.
 unitários verificam o comportamento com relações semânticas simuladas; não
 comprovam desempenho do modelo em português ou no domínio de investimentos.
 
-### Limitações e integração futura
 
-Experiência passada e bio não definem necessariamente interesses futuros. A
-similaridade pode priorizar vocabulário genérico, refletir vieses do modelo ou
-aproximar perfis incompatíveis nas regras estruturadas. Não estima risco,
-retorno ou probabilidade de investimento. A média de blocos dá mais influência
-a campos longos; não há pesos específicos por campo nesta versão.
+### Limitações do método semântico
 
-O backend ainda deverá fornecer a projeção textual autorizada, tratar timeouts
-(especialmente na primeira carga), falhas 503 e validar IDs. O endpoint deve ser
-protegido contra acesso público na integração, assim como `/match/rules`.
-Configurar limites de bytes/taxa no gateway, provisionar cache e memória, avaliar
-latência em CPU e fixar revisão dos pesos do modelo para reprodutibilidade são
-pendências de implantação. O Nível 1B não aplica filtros de elegibilidade;
-nenhum nível acessa o banco. Não houve integração ou alteração nos outros repositórios.
+Experiência e biografia não definem necessariamente interesses futuros. A similaridade pode aproximar textos genéricos ou perfis incompatíveis nos critérios estruturados. O método não estima risco ou retorno e exige avaliação de desempenho, custos e vieses antes de uso ampliado.
 
-Referências oficiais: [API SentenceTransformer](https://www.sbert.net/docs/package_reference/sentence_transformer/model.html)
-e [modelo](https://huggingface.co/sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2).
+---
+
+## 🧪 Treinamento, testes e validação
+
+`requirements-dev.txt` cobre API e testes básicos. Para experimentos, `requirements-training.txt`, `requirements-supervised.txt`, `requirements-synthetic.txt` e `requirements-content.txt` acrescentam dependências específicas. O artefato supervisionado não é incluído automaticamente e deve corresponder ao registro de confiança e às versões esperadas pelo código. A estratégia `supervised` no backend é opcional; em falhas previstas o backend pode recorrer integralmente a `rules`, sem misturar as escalas.
+
+A suíte completa pode ser executada com `python -m pytest -q -p no:cacheprovider`, mas precisa também das dependências de treinamento: apenas `requirements-dev.txt` não fornece NumPy e joblib necessários à coleta de alguns testes. O teste de embeddings reais é opcional e pode baixar pesos. Testes simulados e métricas com dados sintéticos não comprovam desempenho com pessoas reais.
+
+## ⚡ Automação e regra ECA
+
+**Evento:** o backend solicita recomendações. **Condição:** existem atributos de perfis que podem ser comparados. **Ação:** o motor calcula afinidade e cobertura e ordena as candidatas; dados insuficientes são sinalizados. **Executor:** FastAPI. A implementação está em `app/rules.py`; `tests/test_rules.py` cobre, entre outros, `test_complete` e `test_no_evaluable_criteria`.
+
+---
+
+## 🔒 Segurança, dados e limites
+
+O backend deve autenticar o usuário e verificar permissões antes de chamar o serviço. A chave entre serviços não deve chegar ao navegador. Payloads são validados e o motor não consulta o PostgreSQL nem armazena perfis diretamente. Não versione segredos ou dados pessoais reais. A estratégia supervisionada usa dados sintéticos e suas probabilidades não foram calibradas com usuários reais; scores de afinidade não são probabilidade de investimento.
+
+Disponibilidade depende do backend, do motor e da infraestrutura. Os critérios e pesos precisam de validação com usuários, e resultados incompletos devem ser interpretados junto com a cobertura.
+
+## ☁️ Deploy, status e versão
+
+O beta executa o motor em Azure Container Apps. O workflow `.github/workflows/azure-beta.yml` instala dependências básicas, executa os testes de regras e publica uma imagem identificada pelo commit. A tag `v1.0-high-tech` identifica a versão preparada para a entrega; alterações posteriores não modificam seu conteúdo. O projeto permanece em desenvolvimento e não há licença de distribuição explícita neste repositório.
+
+---
+
+## 🎓 Projeto Integrador e equipe
+
+- **Curso:** Análise e Desenvolvimento de Sistemas — 5º período
+- **Instituição:** Faculdade Senac Pernambuco
+- **Projeto:** Startups e Economia Criativa — Juntaí!
+
+**Integrantes:** João Victor Rodrigues Basante, João Vitor Malveira da Silva, Maria Clara de Melo, Renato Trancoso Branco Delgado, Thayana Anália dos Santos Lira e Vinícius Henrique Silva Nascimento.
+
+## 🤖 Uso de inteligência artificial
+
+- **Identidade visual:** ChatGPT apoiou o brainstorming de tipografia e cores; o logo final foi feito por uma designer profissional.
+- **Prototipagem e frontend:** ChatGPT e Codex auxiliaram na jornada, posteriormente modificada pela equipe. Codex e UXPilot apoiaram a prototipagem a partir das definições da equipe; o Codex também auxiliou a programação supervisionada de acordo com o cronograma.
+- **Backend e matchmaking:** Claude foi o mais utilizado como auxílio na programação, além do ChatGPT. Gemini auxiliou nas verificações de segurança.
+- **Documentação:** Codex e Claude auxiliaram na elaboração e revisão.
+
+As decisões, a compreensão do código e a validação dos resultados são responsabilidade da equipe.

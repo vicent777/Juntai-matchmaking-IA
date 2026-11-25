@@ -1,9 +1,10 @@
 # POST /match/supervised — inferência experimental do Nível 2
 
-Endpoint aditivo do FastAPI. Não substitui `/match/rules`, não modifica
-`/match/content` e não está integrado ao backend ou ranking principal. Não há
+Endpoint aditivo do FastAPI. Não substitui `/match/rules` nem modifica
+`/match/content`. O backend possui integração opcional para a estratégia
+`supervised`; a configuração padrão do beta continua sendo `rules`. Não há
 treinamento, acesso ao PostgreSQL, atualização do dataset ou gravação de eventos
-durante inferência.
+no motor durante a inferência.
 
 ## Modelo e compatibilidade
 
@@ -223,5 +224,7 @@ probabilidades não foram recalibradas em usuários reais. Perfis incompletos e
 categorias novas podem estar fora da distribuição de treino. Snapshots de origem
 não são reconstruções históricas. A resposta explicita essas limitações.
 
-Integração Node.js, alteração do ranking principal, coleta de dados, deploy e
-escolha definitiva de modelo continuam fora desta implementação.
+Os resultados acima registram uma execução anterior. A integração opcional no
+Node.js foi implementada posteriormente; sua configuração, fallback e limites
+estão em `docs/supervised-backend-integration.md` no repositório do backend.
+O modelo continua experimental e sua validação com dados reais permanece pendente.
